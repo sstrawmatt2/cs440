@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.*;
 
@@ -9,6 +8,7 @@ public class Project2 implements Runnable {
     int destroyedThreadCounter = 0;
     //int threadChildCounter = 0;
     List<Integer> threads = new ArrayList<>();
+    List<Integer> childThreads = new ArrayList<>();
 
 
 
@@ -51,7 +51,7 @@ public class Project2 implements Runnable {
     }
 
     public void destroyingThreads(){
-        System.out.println("Destroying 100 threads");
+        System.out.println("Destroying 100,000 threads");
         {
             for(int i=99999; i>0; i--)
             {
@@ -85,25 +85,48 @@ public class Project2 implements Runnable {
         System.out.println("Threads Destroyed: " + destroyedThreadCounter);
     }
 
-    // Question 2
+    // Question 2 part b
     public void parentAndChildThreads(){
 
         System.out.println("Creating 100 threads " + threadName);
-        for(int i=1; i<=10; i++)
+        for(int i=0; i<=99; i++)
         {
             System.out.println("Creating " + threadName + i);
             threadCounter +=1;
             threads.add(i);
-
-            // foreach thread create 1000 child threads
-            for(int threadName: threads)
+        }
+        for(int threadName: threads)
+        {
+            System.out.println();
+            System.out.println("Thread: " + threadName);
+            for(int j=0; j<1000; j++)
             {
-                for(int j=0; j<5; j++)
-                {
-                    System.out.println("Creating child of: "+ j + " of thread: " + threadName);
-                }
+                System.out.println("Creating child #: "+ j+ " of thread: " + threadName);
+                childThreads.add(j);
+
             }
         }
+
+        // trying to delete all the child threads after they have been created
+        for(int threadName: threads)
+        {
+            System.out.println("Thread: " + threadName);
+            for(int j=999; j>0; j--)
+            {
+                System.out.println("deleting child #: "+ j+ " of thread: " + threadName);
+                childThreads.remove(j);
+            }
+        }
+        // Destroying all the parents in reverse order after all of the children have been destroyed.
+        System.out.println("Destroying 100 threads");
+        {
+            for(int i=99; i>0; i--)
+            {
+                System.out.println("Destroying " + threadName + i);
+                threads.remove(i);
+            }
+        }
+
     }
 }
 
