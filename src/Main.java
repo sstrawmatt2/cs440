@@ -9,6 +9,8 @@ public class Main {
           Project2 R1 = new Project2( "Thread 1");
           R1.start();
           R1.timeThreads();
+          R1.calculations();
+
 //
 //
 //        Project2 R2 = new Project2( "Thread 2");

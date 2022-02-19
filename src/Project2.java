@@ -4,7 +4,7 @@ import java.util.*;
 public class Project2 implements Runnable {
     Thread t;
     String threadName;
-    int threadCounter = 0;
+    int createdThreadCounter = 0;
     int destroyedThreadCounter = 0;
     //int threadChildCounter = 0;
 
@@ -18,29 +18,27 @@ public class Project2 implements Runnable {
     }
 
     public void run() {
+
         System.out.println("Running " +  threadName );
         try {
             // creating new threads
-//            for(int i = 0; i <=99 ; i++) {
-//                System.out.println("Thread: " + threadName + ", " + i);
-//                // Let the thread sleep for a while.
-//                Thread.sleep(50);
-//            }
-            // creating new threads starting from 1 to 100,000
             for(int i=1; i<=100; i++)
             {
                 System.out.println("Thread: " + threadName + ", " + i);
                 Thread.sleep(50);
-            }
-            // after threads have been created they are being destroyed in reverse order
-            System.out.println("Destroying Threads");
-            for(int i=100; i>=1; i--)
-            {
-                System.out.println("Thread: " + threadName + ", " + i);
+                createdThreadCounter +=1;
             }
         } catch (InterruptedException e) {
             System.out.println("Thread " +  threadName + " interrupted.");
         }
+        // after threads have been created they are being destroyed in reverse order
+        System.out.println("Destroying Threads");
+        for(int i=100; i>=1; i--)
+        {
+            destroyedThreadCounter +=1;
+            System.out.println("Thread: " + threadName + ", " + i);
+        }
+
         System.out.println("Thread " +  threadName + " exiting.");
     }
 
@@ -57,8 +55,8 @@ public class Project2 implements Runnable {
     public void timeThreads(){
         //https://stackoverflow.com/questions/180158/how-do-i-time-a-methods-execution-in-java for the timing code
         long startTime = System.nanoTime();
-        run();
         long endTime = System.nanoTime();
+        run();
         long duration = (endTime - startTime)/1000000 ;
         System.out.println("Time to create 100,000 threads: " + duration + " milliseconds");
         System.out.println();
@@ -72,6 +70,12 @@ public class Project2 implements Runnable {
         System.out.println("Time to destroy 100,000 threads: " + duration + " milliseconds");
 
     }
+
+    public void calculations(){
+        System.out.println("Created threads: " + createdThreadCounter);
+        System.out.println("Destroyed threads: " + destroyedThreadCounter);
+    }
+
 
 
 }
